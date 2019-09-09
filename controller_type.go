@@ -62,7 +62,7 @@ func AddControllerType(moduleSource *Module, controllerType reflect.Type, method
 	} else {
 		controllerLog.Errorf("Error, attempt to register duplicate controller as %s", controllerName)
 	}
-	controllerLog.Debugf("Registered controller: %s", controllerName)
+	// controllerLog.Debugf("Registered controller: %s", controllerName)
 
 	return
 }

@@ -117,7 +117,7 @@ func NewRoute(moduleSource *Module, method, path, action, fixedArgs, routesPath 
 
 	// Ignore the not found status code
 	if action != httpStatusCode {
-		routerLog.Debugf("NewRoute: New splitActionPath path:%s action:%s", path, action)
+		// routerLog.Debugf("NewRoute: New splitActionPath path:%s action:%s", path, action)
 		pathData, found := splitActionPath(&ActionPathData{ModuleSource: moduleSource, Route: r}, r.Action, false)
 		if found {
 			if pathData.TypeOfController != nil {
@@ -312,7 +312,7 @@ func splitActionPath(actionPathData *ActionPathData, actionPath string, useCache
 			methodName = methodName[:i]
 		}
 		log = log.New("controller", controllerName, "method", methodName)
-		log.Debug("splitActionPath: Check for namespace")
+		// log.Debug("splitActionPath: Check for namespace")
 		if i := strings.Index(controllerName, namespaceSeperator); i > -1 {
 			controllerNamespace = controllerName[:i+1]
 			if moduleSource, found := ModuleByName(controllerNamespace[:len(controllerNamespace)-1]); found {
@@ -334,7 +334,7 @@ func splitActionPath(actionPathData *ActionPathData, actionPath string, useCache
 					controllerNamespace = typeOfController.Namespace
 				}
 			}
-			log.Info("Found controller for path", "controllerType", typeOfController)
+			// log.Info("Found controller for path", "controllerType", typeOfController)
 
 			if typeOfController == nil {
 				// Check to see if we can determine the controller from only the controller name
@@ -372,7 +372,7 @@ func splitActionPath(actionPathData *ActionPathData, actionPath string, useCache
 		for path := range actionPathCacheMap {
 			foundPaths += path + ","
 		}
-		log.Warnf("splitActionPath: Invalid action path %s found paths %s", actionPath, foundPaths)
+		// log.Warnf("splitActionPath: Invalid action path %s found paths %s", actionPath, foundPaths)
 		found = false
 	}
 
@@ -399,7 +399,7 @@ func splitActionPath(actionPathData *ActionPathData, actionPath string, useCache
 		}
 		actionPathData.TypeOfController = foundModuleSource.ControllerByName(controllerName, "")
 		if actionPathData.TypeOfController == nil && actionPathData.ControllerName[0] != ':' {
-			log.Warnf("splitActionPath: No controller found for %s %#v", foundModuleSource.Namespace()+controllerName, controllers)
+			// log.Warnf("splitActionPath: No controller found for %s %#v", foundModuleSource.Namespace()+controllerName, controllers)
 		}
 
 		pathData = actionPathData
@@ -413,13 +413,13 @@ func splitActionPath(actionPathData *ActionPathData, actionPath string, useCache
 			actionPath = actionPath + "(" + strings.ToLower(strings.Join(pathData.Route.FixedParams, ",")) + ")"
 		}
 		if actionPathData.Route != nil {
-			log.Debugf("splitActionPath: Split Storing recognized action path %s for route  %#v ", actionPath, actionPathData.Route)
+			// log.Debugf("splitActionPath: Split Storing recognized action path %s for route  %#v ", actionPath, actionPathData.Route)
 		}
 		pathData.Key = actionPath
 		actionPathCacheMap[actionPath] = pathData
 		if !strings.Contains(actionPath, namespaceSeperator) && pathData.TypeOfController != nil {
 			actionPathCacheMap[strings.ToLower(pathData.TypeOfController.Namespace)+actionPath] = pathData
-			log.Debugf("splitActionPath: Split Storing recognized action path %s for route  %#v ", strings.ToLower(pathData.TypeOfController.Namespace)+actionPath, actionPathData.Route)
+			// log.Debugf("splitActionPath: Split Storing recognized action path %s for route  %#v ", strings.ToLower(pathData.TypeOfController.Namespace)+actionPath, actionPathData.Route)
 		}
 	}
 	return

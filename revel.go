@@ -6,15 +6,24 @@ package revel
 
 import (
 	"go/build"
+	"io/ioutil"
 	"log"
 	"path/filepath"
 	"strings"
 
 	"encoding/json"
 	"fmt"
+
 	"github.com/revel/config"
-	"github.com/revel/revel/logger"
 	"github.com/revel/revel/model"
+)
+
+var (
+	// Loggers
+	TRACE = log.New(ioutil.Discard, "TRACE ", log.Ldate|log.Ltime|log.Lshortfile)
+	INFO  = log.New(ioutil.Discard, "INFO  ", log.Ldate|log.Ltime|log.Lshortfile)
+	WARN  = log.New(ioutil.Discard, "WARN  ", log.Ldate|log.Ltime|log.Lshortfile)
+	// ERROR = log.New(&errorlog, "ERROR ", log.Ldate|log.Ltime|log.Lshortfile)
 )
 
 const (
@@ -30,13 +39,13 @@ const (
 // App details
 var (
 	RevelConfig *model.RevelContainer
-	AppName    string // e.g. "sample"
-	AppRoot    string // e.g. "/app1"
-	BasePath   string // e.g. "$GOPATH/src/corp/sample"
-	AppPath    string // e.g. "$GOPATH/src/corp/sample/app"
-	ViewsPath  string // e.g. "$GOPATH/src/corp/sample/app/views"
-	ImportPath string // e.g. "corp/sample"
-	SourcePath string // e.g. "$GOPATH/src"
+	AppName     string // e.g. "sample"
+	AppRoot     string // e.g. "/app1"
+	BasePath    string // e.g. "$GOPATH/src/corp/sample"
+	AppPath     string // e.g. "$GOPATH/src/corp/sample/app"
+	ViewsPath   string // e.g. "$GOPATH/src/corp/sample/app/views"
+	ImportPath  string // e.g. "corp/sample"
+	SourcePath  string // e.g. "$GOPATH/src"
 
 	Config  *config.Context
 	RunMode string // Application-defined (by default, "dev" or "prod")
@@ -233,10 +242,10 @@ func updateLog(inputmode string) (returnMode string) {
 		newContext.SetOption(SPECIAL_USE_FLAG, fmt.Sprint(specialUseFlag))
 	}
 
-	appHandle := logger.InitializeFromConfig(BasePath, newContext)
+	// appHandle := logger.InitializeFromConfig(BasePath, newContext)
 
-	// Set all the log handlers
-	setAppLog(AppLog, appHandle)
+	// // Set all the log handlers
+	// setAppLog(AppLog, appHandle)
 
 	return
 }

@@ -484,7 +484,7 @@ func getRedirectURL(item interface{}, args []interface{}) (string, error) {
 		module := ModuleFromPath(recvType.PkgPath(), true)
 		action := module.Namespace() + recvType.Name() + "." + method.Name
 		// Fetch the action path to get the defaults
-		pathData, found := splitActionPath(nil, action, true)
+		pathData, found := splitActionPath(nil, "action", true)
 		if !found {
 			return "", fmt.Errorf("Unable to redirect '%s', expected 'Controller.Action'", action)
 		}
